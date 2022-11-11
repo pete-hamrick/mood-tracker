@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, session, redirect
 from flask_session import Session
-from sqlite3 import Error, connect
+from sqlite3 import Error, connect, Row
+from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
 
@@ -65,12 +66,34 @@ def register():
         if not userEmail or not userPassword or not passwordConfirmation:
             message = "Please enter a valid email and password and confirm your password"
             return render_template("register.html", message=message)
+
         # connect to the database
-        # check if the email is already registered
-            # render the register.html template but with an error message?
-        # hash the password
-        # insert the email and password hash into the database
+        con = get_db_connection()
+
+        with con:
+            con.row_factory = Row
+
+            cursor = con.cursor()
+
+            # check if the email is already registered
+            cursor.execute("SELECT * FROM users WHERE email = ?", (userEmail,))
+            checkEmailRegistration = cursor.fetchall()
+
+            if len(checkEmailRegistration) != 0:
+                # render the register.html template but with an error message?
+                message = f"{checkEmailRegistration['email']} is already registered, please login or register with a different email"
+                return render_template("register.html", message=message)
+
+            # hash the password
+            password_hash = generate_password_hash(userPassword)
+
+            # insert the email and password hash into the database
+            cursor.execute("INSERT INTO users (email, password_hash) VALUES (?, ?)", (userEmail, password_hash))
+
+            con.commit()
+
         # redirect to login so the user can...login
+        return redirect("/login")
 
     # GET method
     else:
