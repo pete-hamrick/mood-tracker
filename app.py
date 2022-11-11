@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request, session, redirect
 from flask_session import Session
 
 app = Flask(__name__)
@@ -13,13 +13,19 @@ def index():
     # TODO make index.html
     # return render_template("index.html")
 
-@app.route("/login")
+@app.route("/login", methods=["GET", "POST"])
 def login():
-    return "future home of logging in for registered users"
-    # TODO make login.html
-    # TODO write behavior for:
-        # POST method
-            # handle if the user doesn't input an email or password
+    # POST method
+    if request.method == "POST":
+        userEmail = request.form.get("email")
+        userPassword = request.form.get("password")
+
+        # handle if the user doesn't input an email or password
+        if not userEmail or not userPassword:
+            message = "Please enter your registered email and password"
+            return render_template("login.html", messege=message)
+        
+        return redirect("/")
             # connect to the database
             # find user in the database by their email
                 # check the password hash
