@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+    {% if session["user_id"] %}
+        <h1>Welcome to your Mood Tracker</h1>
+        <p>Log your current mood, look at your history, or even check out your mood trends by visiting the links above</p>
+    {% else %}
+        <h1>Welcome to Mood Tracker</h1>
+        <p>Please register and/or sign in to log your current mood or view past moods</p>
+    {% endif %}
+{% endblock %}

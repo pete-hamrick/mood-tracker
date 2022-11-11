@@ -23,9 +23,7 @@ def get_db_connection():
 
 @app.route("/")
 def index():
-    return "hello, welcome to the home page"
-    # TODO make index.html
-    # return render_template("index.html")
+    return render_template("index.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
