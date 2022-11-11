@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session, redirect
+from flask import Flask, render_template, request, session, redirect, url_for
 from flask_session import Session
 from sqlite3 import Error, connect, Row
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -24,6 +24,19 @@ def get_db_connection():
 @app.route("/")
 def index():
     return render_template("index.html")
+
+@app.route("/location", methods=["GET", "POST"])
+def location():
+
+    if request.method == "POST":
+
+        units = request.form.get("units")
+        lat = request.form.get("lat")
+        lon = request.form.get("lon")
+        return redirect(url_for('log', units=units, lat=lat, lon=lon))
+
+    else:
+        return render_template("location.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
