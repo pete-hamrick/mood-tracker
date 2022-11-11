@@ -73,6 +73,11 @@ def login():
         # render the login.html
         return render_template("login.html")
 
+@app.route("/logout")
+def logout():
+    session.clear()
+
+    return redirect("/")
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
