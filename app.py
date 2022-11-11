@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, session, redirect
 from flask_session import Session
 from sqlite3 import Error, connect, Row
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
@@ -31,6 +31,7 @@ def index():
 def login():
     # POST method
     if request.method == "POST":
+
         userEmail = request.form.get("email")
         userPassword = request.form.get("password")
 
@@ -39,14 +40,38 @@ def login():
             message = "Please enter your registered email and password"
             return render_template("login.html", messege=message)
         
-        return redirect("/")
-            # connect to the database
+        # connect to the database
+        con = get_db_connection()
+
+        with con:
+            con.row_factory = Row
+
+            cursor = con.cursor()
+
             # find user in the database by their email
-                # check the password hash
+            cursor.execute("SELECT * FROM users WHERE email = ?", (userEmail,))
+            rows = cursor.fetchall()
+
+            if len(rows) != 1:
+                message = "No account is registered with this email"
+                return render_template("login.html", message=message)
+                
+            # check the password hash
+            if not check_password_hash(rows[0]['password_hash'], userPassword):
+                message = "invalid password"
+                return render_template("login.html", message=message)
+
             # set the user in the session
-            # redirect home or to history?
-        # GET method
-            # render the login.html
+            session["user_id"] = rows[0]["id"]
+
+
+        # redirect home or to history?
+        return redirect("/")
+
+    # GET method
+    else:
+        # render the login.html
+        return render_template("login.html")
 
 
 @app.route("/register", methods=["GET", "POST"])
