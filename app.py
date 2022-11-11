@@ -1,11 +1,24 @@
 from flask import Flask, render_template, request, session, redirect
 from flask_session import Session
+from sqlite3 import Error, connect
 
 app = Flask(__name__)
 
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
+
+DATABASE = 'tracker.db'
+
+# consider making an helpers file for this to live in
+def get_db_connection():
+    connection = None
+    try:
+        connection = connect(DATABASE)
+    except Error as e:
+        print(f"the error '{e}' has occured")
+
+    return connection
 
 @app.route("/")
 def index():
