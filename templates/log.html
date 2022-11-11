@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Log Mood
+{% endblock %}
+
+{% block main %}
+    <form action="/log" method="post">
+        <div class="mb-3">
+            <h3>Current Weather: </h3>
+            <span name="title" id="title">{{ title }}</span>
+            <img src="http://openweathermap.org/img/wn/{{ icon }}@2x.png" alt="weather icon">
+        </div>
+
+        <div class="mb-3 hidden">
+            <input type="text" id="title" name="title" value="{{ title }}">
+            <input type="text" id="description" name="description" value="{{ description }}">
+            <input type="text" id="icon" name="icon" value="{{ icon }}">
+            <input type="text" id="temp" name="temp" value="{{ temp }}">
+            <input type="text" id="feels_like" name="feels_like" value="{{ feels_like }}">
+            <input type="text" id="cloudiness" name="cloudiness" value="{{ cloudiness }}">
+        </div>
+        
+        <div class="mb-4">
+            Currently, <span name="description" id="description">{{ description }}</span>
+             and <span name="temp" id="temp">{{ temp }}</span> degrees. It feels like  
+            <span name="feels_like" id="feels_like">{{ feels_like }}</span> degrees 
+            and the cloudiness is <span name="cloudiness" id="cloudiness">{{ cloudiness }}</span>%
+        </div>
+
+        <div class="mb-3">
+            <h6>Rate your mood:</h6>
+            <input type="radio" name="mood_rating" value="1"> 1 (poor)
+            <input type="radio" name="mood_rating" value="2"> 2 (fair)
+            <input type="radio" name="mood_rating" value="3"> 3 (solid)
+            <input type="radio" name="mood_rating" value="4"> 4 (good)
+            <input type="radio" name="mood_rating" value="5"> 5 (great)
+        </div>
+
+        <div class="mb-3">
+            <h6>Add a note about your mood:</h6>
+            <textarea class="form-control mx-auto w-auto" id="mood_body" name="mood_body" placeholder="Mood..."></textarea>
+            <!-- want to add a way to count characters here, thinking of limiting to 500 characters -->
+        </div>
+        
+        <button class="btn btn-primary" type="submit">Log Mood</button>
+    </form>
+{% endblock %}

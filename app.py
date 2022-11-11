@@ -1,25 +1,17 @@
 from flask import Flask, render_template, request, session, redirect, url_for
 from flask_session import Session
-from sqlite3 import Error, connect, Row
+from sqlite3 import Row
 from werkzeug.security import generate_password_hash, check_password_hash
+from dotenv import load_dotenv
+from helpers import get_db_connection, getWeather
 
+load_dotenv()
+ 
 app = Flask(__name__)
 
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
-
-DATABASE = 'tracker.db'
-
-# consider making an helpers file for this to live in
-def get_db_connection():
-    connection = None
-    try:
-        connection = connect(DATABASE)
-    except Error as e:
-        print(f"the error '{e}' has occured")
-
-    return connection
 
 @app.route("/")
 def index():
@@ -37,6 +29,57 @@ def location():
 
     else:
         return render_template("location.html")
+
+@app.route("/log", methods=["GET", "POST"])
+def log():
+
+    if request.method == "POST":
+        
+        title = request.form.get("title"),
+        description = request.form.get("description"),
+        icon = request.form.get("icon"),
+        temp = request.form.get("temp"),
+        feels_like = request.form.get("feels_like"),
+        cloudiness = request.form.get("cloudiness")
+
+        mood_rating = request.form.get("mood_rating"),
+        mood_body = request.form.get("mood_body"),
+        user_id = session['user_id']
+
+        con = get_db_connection()
+
+        with con:
+            con.row_factory = Row
+
+            cur = con.cursor()
+
+            cur.execute("INSERT INTO journals (body, mood, user_id) VALUES (?, ?, ?) RETURNING *", (mood_body[0], int(mood_rating[0]), int(user_id)))
+
+            journalRows = cur.fetchall()
+            journal_id = journalRows[0]['id']
+
+            print(journal_id)
+
+            cur.execute("INSERT INTO weather (title, description, icon, temp, feels_like, cloudiness, journal_id) VALUES (?, ?, ?, ?, ?, ?, ?)", (title[0], description[0], icon[0], float(temp[0]), float(feels_like[0]), str(cloudiness), int(journal_id)))
+
+            con.commit()
+        return redirect("/history")
+
+    else:
+        units=request.args.get("units") 
+        lat=request.args.get("lat")
+        lon=request.args.get("lon")
+        data = getWeather(units, lat, lon)
+            
+        return render_template(
+            "log.html", 
+            title=data["title"],
+            description=data["description"], 
+            temp=data["temp"], 
+            feels_like=data["feels_like"], 
+            cloudiness=data["cloudiness"], 
+            icon=data["icon"]
+        )
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
