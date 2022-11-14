@@ -202,3 +202,19 @@ def register():
     else:
         # render the register.html
         return render_template("register.html")
+
+@app.route("/trends")
+def trends():
+    # connect to the database
+        # con = get_db_connection()
+
+        # with con:
+        #     con.row_factory = Row
+
+        #     cursor = con.cursor()
+
+        #     # check if the email is already registered
+        #     cursor.execute("SELECT * FROM users WHERE email = ?", (userEmail,))
+        #     rows = cursor.fetchall()
+
+    return render_template("trends.html")
