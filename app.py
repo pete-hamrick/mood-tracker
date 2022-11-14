@@ -17,6 +17,25 @@ Session(app)
 def index():
     return render_template("index.html")
 
+@app.route("/history")
+def history():
+    con = get_db_connection()
+
+    with con:
+        con.row_factory = Row
+
+        cur = con.cursor()
+
+        cur.execute("""
+            SELECT journals.date, journals.body, journals.mood, weather.title, weather.icon, weather.temp FROM journals
+            INNER JOIN weather ON journals.id = weather.journal_id
+            WHERE journals.user_id = ?;
+        """, (session["user_id"],))
+
+        rows = cur.fetchall()
+            
+    return render_template("history.html", rows=rows)
+
 @app.route("/location", methods=["GET", "POST"])
 def location():
 
