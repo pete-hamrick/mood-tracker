@@ -137,7 +137,6 @@ def login():
             # set the user in the session
             session["user_id"] = rows[0]["id"]
             session["user_email"] = rows[0]["email"]
-            print(session["user_email"])
 
 
         # redirect home or to history?
