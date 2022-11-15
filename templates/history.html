@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Your History
+{% endblock %}
+
+{% block main %}
+<h1>Your History</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th class="text-white">Date</th>
+            <th class="text-white" colspan="3">Weather</th>
+            <th class="text-white">Mood Rating</th>
+            <th class="text-white">Mood Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in rows %}
+            <tr>
+                <td class="align-middle text-white">{{ row['date'] }}</td>
+                <td class="align-middle text-white">{{ row['title'] }}</td>
+                <td class="align-middle text-white"><img src="http://openweathermap.org/img/wn/{{ row['icon'] }}@2x.png" alt="weather icon"></td>
+                <td class="align-middle text-white">{{ row['temp'] }}<span>&#176;</span></td>
+                <td class="align-middle text-white">{{ row['mood'] }}</td>
+                <td class="align-middle text-white">{{ row['body'] }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

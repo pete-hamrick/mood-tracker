@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Login
+{% endblock %}
+
+{% block main %}
+
+    {% if message %}
+    <header>
+        <div class="alert alert-primary mb-0 text-center" role="alert">
+            {{ message }}
+        </div>
+    </header>
+    {% endif %}
+    
+    <form action="/login" method="post">
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="email" name="email" placeholder="Email" type="email">
+        </div>
+        <div class="mb-3">
+            <input autocomplete="off" class="form-control mx-auto w-auto" id="password" name="password" placeholder="Password" type="password">
+        </div>
+        
+        <button class="btn btn-primary" type="submit">Login</button>
+    </form>
+{% endblock %}

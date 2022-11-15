@@ -1,0 +1,9 @@
+.hidden
+{
+    display: none;
+}
+
+nav .navbar-brand
+{
+    font-size: xx-large;
+}

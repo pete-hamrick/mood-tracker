@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Location
+{% endblock %}
+
+{% block main %}
+    <form action="/location" method="post">
+        <div class="mb-3">
+            Units:
+            <span> </span>
+            <input class="text-white" type="radio" name="units" value="standard"> Kelvin
+            <input class="text-white" type="radio" name="units" value="metric"> Celsius
+            <input class="text-white" type="radio" name="units" value="imperial" checked> Fahrenheit
+        </div>
+
+        <div class="mb-3">
+            <input type="text" id="lat" name="lat">
+        </div>
+
+        <div class="mb-3">
+            <input type="text" id="lon" name="lon">
+        </div>
+
+        <button class="btn btn-primary" type="submit">Proceed</button>
+    </form>
+{% endblock %}
+
+{% block script %}
+    <script>
+        navigator.geolocation.getCurrentPosition(function(position) {
+            document.querySelector("#lat").value = position.coords.latitude
+            document.querySelector("#lon").value = position.coords.longitude
+        });
+    </script>
+{% endblock %}
