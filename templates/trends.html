@@ -9,34 +9,19 @@
 {% endblock %}
 
 {% block script %}
-<script type="module">
-    import Highcharts from 'https://code.highcharts.com/es-modules/masters/highcharts.src.js';
-    import 'https://code.highcharts.com/es-modules/masters/modules/accessibility.src.js';
+<script>
+    var chart_id = {{ chartID|safe }}
+    var series = {{ series|safe }}
+    var title = {{ title|safe }}
+    var xAxis = {{ xAxis|safe }}
+    var yAxis = {{ yAxis|safe }}
+    var chart = {{ chart|safe }}
 
-    Highcharts.chart('container', {
-        title: {
-            text: 'Your Mood Trends'
-        },
-        xAxis: {
-            categories: ['10-5', '10-11', '10-13', '10-15', '10-21', '10-22', '11-1', '11-3', '11-5']
-        },
-
-        yAxis: {
-            title: {
-                text: 'Mood Rating'
-            },
-            labels: {
-                formatter: function () {
-                    return 'Rating: ' + this.value;
-                }
-            }
-        },
-
-        series: [{
-            name: 'pete@test.com',
-
-            data: [4,5,3,2,5,1,3,4,5]
-        }]
-    });
+    Highcharts.chart(chart_id, {
+        title: title,
+        yAxis: yAxis,
+        xAxis: xAxis,
+        series: series
+    })
 </script>
 {% endblock %}

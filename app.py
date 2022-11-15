@@ -204,17 +204,31 @@ def register():
         return render_template("register.html")
 
 @app.route("/trends")
-def trends():
+def trends(chartID= 'container'):
     # connect to the database
-        # con = get_db_connection()
+    con = get_db_connection()
 
-        # with con:
-        #     con.row_factory = Row
+    with con:
+        con.row_factory = Row
 
-        #     cursor = con.cursor()
+        cursor = con.cursor()
 
-        #     # check if the email is already registered
-        #     cursor.execute("SELECT * FROM users WHERE email = ?", (userEmail,))
-        #     rows = cursor.fetchall()
+        # get users moods, date, icon, 
+        cursor.execute("SELECT journals.mood, journals.date, weather.icon FROM journals JOIN weather ON journals.id = weather.journal_id WHERE journals.user_id = ?", (session["user_id"],))
+        rows = cursor.fetchall()
 
-    return render_template("trends.html")
+    moods = []
+    dates = []
+    icons = []
+    for row in rows:
+        moods.append(row['mood'])
+        dates.append(row['date'])
+        icons.append(row['icon'])
+
+    chart = {"renderTo":chartID,'type':'line',}
+    series=[{"data": moods}]
+    title={"text":"Your Mood Trends"}
+    xAxis={"title":{"text":"dates"},"categories":dates}
+    yAxis={"title":{"text":"Mood Rating"}}
+
+    return render_template("trends.html", chartID=chartID, chart=chart, series=series, title=title, xAxis=xAxis, yAxis=yAxis)
