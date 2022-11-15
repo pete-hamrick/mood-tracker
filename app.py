@@ -136,6 +136,7 @@ def login():
 
             # set the user in the session
             session["user_id"] = rows[0]["id"]
+            session["user_email"] = rows[0]["email"]
 
 
         # redirect home or to history?
@@ -226,7 +227,7 @@ def trends(chartID= 'container'):
         icons.append(row['icon'])
 
     chart = {"renderTo":chartID,'type':'line',}
-    series=[{"data": moods}]
+    series=[{"name":session['user_email'],"data": moods}]
     title={"text":"Your Mood Trends"}
     xAxis={"title":{"text":"dates"},"categories":dates}
     yAxis={"title":{"text":"Mood Rating"}}
