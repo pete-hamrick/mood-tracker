@@ -89,15 +89,22 @@ def log():
         lat=request.args.get("lat")
         lon=request.args.get("lon")
         data = getWeather(units, lat, lon)
+
+        title=data["title"]
+        description=data["description"] 
+        temp=data["temp"] 
+        feels_like=data["feels_like"] 
+        cloudiness=data["cloudiness"] 
+        icon=data["icon"]
             
         return render_template(
             "log.html", 
-            title=data["title"],
-            description=data["description"], 
-            temp=data["temp"], 
-            feels_like=data["feels_like"], 
-            cloudiness=data["cloudiness"], 
-            icon=data["icon"]
+            title=title,
+            description=description, 
+            temp=temp, 
+            feels_like=feels_like, 
+            cloudiness=cloudiness, 
+            icon=icon
         )
 
 @app.route("/login", methods=["GET", "POST"])
