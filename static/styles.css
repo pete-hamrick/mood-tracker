@@ -7,3 +7,44 @@ nav .navbar-brand
 {
     font-size: xx-large;
 }
+
+.blinking-text
+{
+    animation: blinking 2s linear infinite;
+}
+
+.success
+{
+    color: lightgreen;
+}
+
+@keyframes blinking 
+{
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+@-webkit-keyframes blinking 
+{
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+@-moz-keyframes blinking 
+{
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+@-o-keyframes blinking 
+{
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+@-ms-keyframes blinking 
+{
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}

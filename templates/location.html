@@ -7,22 +7,26 @@
 {% block main %}
     <form action="/location" method="post">
         <div class="mb-3">
-            Units:
-            <span> </span>
+            What are your prefered temperature units?    
+        </div>
+        <div class="mb-3">
+            <span>    </span>
             <input class="text-white" type="radio" name="units" value="standard"> Kelvin
             <input class="text-white" type="radio" name="units" value="metric"> Celsius
             <input class="text-white" type="radio" name="units" value="imperial" checked> Fahrenheit
         </div>
 
         <div class="mb-3">
-            <input type="text" id="lat" name="lat">
+            <p id="loading-text" class="blinking-text">Loading your location</p>
+            <p id="loading-complete" class="hidden success">☑︎ Location Loaded</p>
+            <input type="text" class="hidden" id="lat" name="lat">
         </div>
 
-        <div class="mb-3">
+        <div class="mb-3 hidden">
             <input type="text" id="lon" name="lon">
         </div>
 
-        <button class="btn btn-primary" type="submit">Proceed</button>
+        <button id="btn" disabled class="btn btn-primary" type="submit">Proceed</button>
     </form>
 {% endblock %}
 
@@ -31,6 +35,9 @@
         navigator.geolocation.getCurrentPosition(function(position) {
             document.querySelector("#lat").value = position.coords.latitude
             document.querySelector("#lon").value = position.coords.longitude
+            document.querySelector('#loading-complete').classList.remove('hidden')
+            document.querySelector('#loading-text').classList.add('hidden')
+            document.querySelector('#btn').disabled = false;
         });
     </script>
 {% endblock %}
