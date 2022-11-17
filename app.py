@@ -236,7 +236,7 @@ def trends(chartID= 'container'):
     chart = {"renderTo":chartID,'type':'line',}
     series=[{"name":session['user_email'],"data": moods}]
     title={"text":"Your Mood Trends"}
-    xAxis={"title":{"text":"dates"},"categories":dates}
+    xAxis={"title":{"text":"Dates"},"categories":dates}
     yAxis={"title":{"text":"Mood Rating"}}
 
     return render_template("trends.html", chartID=chartID, chart=chart, series=series, title=title, xAxis=xAxis, yAxis=yAxis)

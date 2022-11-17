@@ -18,6 +18,14 @@
     var chart = {{ chart|safe }}
 
     Highcharts.chart(chart_id, {
+        chart: {
+            backgroundColor: 'darkgrey',
+        },
+        plotOptions: {
+            series: {
+                color: '#FF0000'
+            }
+        },
         title: title,
         yAxis: yAxis,
         xAxis: xAxis,
