@@ -1,6 +1,7 @@
 # Mood Tracker
 
-### Video Demo: url will go here
+### Video Demo: 
+[On Youtube](https://youtu.be/xF0nHxxTbSc)
 
 ### Description:
 Hello, I'm Pete Hamrick. The goal with Mood Tracker was to create an app that would allow a user to rate their current mood and pair that with the current weather conditions. Over time this would allow the user to draw some conclusions about their mood as it relates to the weather. For the weather data I decided to use OpenWeather. I thought seeing the data in chart form could also be useful to the user and so I used Highcharts to build build a line graph charting the users mood data.
