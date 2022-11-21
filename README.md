@@ -18,4 +18,4 @@ Now for the templates directory in the project. This houses all the html files t
 - Location.html utilizes some javascript to get the users current location and fills in some inputs on a form. It also allows the user to pick their preferred temperature units. I set the default to fahrenheit because that is what I use and also the default for OpenWeather is Kelvin which I doubt most people use. This is all inside a form and so when the user submits the form it redirects to "/log".
 - Log.html on load fetches the current weather based on the users location and then renders that weather to the page. Additionally, it asks the user to rate their mood and provide some additional context. On submission of this form it will write the mood and weather to their respective tables in the database and then redirect to the users history.
 - History.html fetches all of the users moods from the database and renders them on the screen in the form of a table.
-- Trends.html renders the Highcharts line graph to the screen to show the users mood overtime.
+- Trends.html renders the Highcharts line graph to the screen to show the users mood over time.
